@@ -4,26 +4,35 @@ let income = document.querySelector('.income').children[2]
 let expense = document.querySelector('.expense').children[2]
 let balance = document.querySelector('.balance').children[2]
 function setincome() {
-    let salary = prompt('enter your salary')
-    localStorage.setItem('salary', salary)
-    if (!localStorage.getItem('salary'))
-        income.textContent = '---'
-    else {  
-        updateTotals();
-    }
+    let salary;
+    do {
+        salary = prompt('enter your salary');
+        if (salary === null) return null; // User cancelled
+        salary = salary.trim();
+    } while (isNaN(salary) || salary === '');
+    localStorage.setItem('salary', salary);
+    return salary;
 }
 
 if (date.getMonth() != localStorage.getItem('month') || !localStorage.getItem('month')) {
     localStorage.setItem('month', date.getMonth())
-    setincome()
+    let yes = confirm('your want update your salary')
+    if(yes){
+        localStorage.removeItem('salary')
+    }
+    
 }
-if (!localStorage.getItem('salary') || localStorage.getItem('salary') === 'null') setincome()
+// if (!localStorage.getItem('salary') || localStorage.getItem('salary') === 'null') setincome()
 
 
 
 function updateTotals() {
     let totalExpense = 0;
-    let totalIncome = parseInt(localStorage.getItem('salary')) || 0;
+    let salary = localStorage.getItem('salary');
+    if (!salary || salary === 'null') {
+        salary = setincome();
+    }
+    let totalIncome = parseInt(salary) || 0;
     transactions.forEach(t => {
         if (t.type === 'expense') totalExpense += t.amount;
         else if (t.type === 'income') totalIncome += t.amount;
