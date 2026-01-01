@@ -17,10 +17,10 @@ function setincome() {
 if (date.getMonth() != localStorage.getItem('month') || !localStorage.getItem('month')) {
     localStorage.setItem('month', date.getMonth())
     let yes = confirm('your want update your salary')
-    if(yes){
+    if (yes) {
         localStorage.removeItem('salary')
     }
-    
+
 }
 // if (!localStorage.getItem('salary') || localStorage.getItem('salary') === 'null') setincome()
 
@@ -99,7 +99,7 @@ function renderTransactions() {
         expDiv.className = 'exp';
         expDiv.innerHTML = `
             <div class="exp-part1">
-                <div class="exp-name">${t.name}</div>
+                <div class="exp-name">${t.name[0].toUpperCase() + t.name.slice(1)}</div>
                 <div class="exp-info">
                     <span class="exp-cat">${t.category}</span>
                     <span class="mid"></span>
@@ -116,7 +116,7 @@ function renderTransactions() {
         list.appendChild(expDiv);
     });
 }
-
+// document.querySelectorAll('.expense').children[2].style
 document.querySelector('.expense-list').addEventListener('click', (e) => {
     if (e.target.classList.contains('exp-delete')) {
         const id = e.target.dataset.id;
